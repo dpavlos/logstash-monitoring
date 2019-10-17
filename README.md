@@ -34,8 +34,8 @@ The setup is based on this [Prometheus exporter](https://github.com/alxrem/prome
 In this use case it is assumed that:
 
 * A docker container with the Prometheus exporter is deployed for each logstash instance we want to monitor.
-* Logstash API has been configured to be accessible from the container running the exporter.
-* One Prometheus job named `logstash` with multiple targets which are actually the containers running the exporters.
+* The Logstash API has been configured to be accessible from the docker host.
+* One Prometheus job named `logstash` with multiple targets that are actually the containers running the exporters.
 * A Prometheus type datasource configured on Grafana named `Prometheus`.
 
 Because, as mentioned above, the exporters are running in a container the Prometheus `instance` label is overwritten in order to reflect the actual logstash fqdn instead of the `hostname:port` of the target which in this case is the docker host. Additionally, a custom label named `instance_pqdn` has been added to expose only the pqdn part of the hostname where needed in Grafana visualizations. Below is an example of the Prometheus configuration for job and targets:
@@ -62,13 +62,13 @@ The dashboard relies on repeated panels, rows and templated variables. You can f
 
 
 * instance: Logstash fqdn.
-* plugin_id: The unique id of the each plugin which used inside Logstash filters.
-* input_plugin: The unique id of the each plugin which is used as Logstash input.
-* output_plugin: The unique id of the each plugin which used as Logstash output.
+* plugin_id: The unique id of each plugin which used whithin Logstash filters.
+* input_plugin: The unique id of each plugin which is used as Logstash input.
+* output_plugin: The unique id of each plugin which used as Logstash output.
 
 When Logstash initializes a plugin it assigns a random hash to it. This is not very explanatory and helpful in cases where you want to monitor the performance characteristics of each plugin. It is recommended to [overwrite the id](https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html#plugins-filters-grok-id) by setting the `id` field in each plugin definition in your logstash configuration.
 
-Plugin selection can also be grouped by using Grafana tags. The grouping functionality is based on the `name` label which is returned by the Prometheus exporter for each plugin. In the example below, the `plugin_id: messages_date_1` will be grouped under `tag: date` in the menu bar.
+Plugin selection can also be grouped by using Grafana tags. In our case the grouping functionality is based on the `name` label which is returned by the Prometheus exporter for each plugin. In the example below, the `plugin_id: messages_date_1` will be grouped under `tag: date` in the menu bar.
 
 ```
 logstash_pipeline_plugins_filters_events_duration_in_millis{id="messages_date_1",name="date",pipeline="main"} 354
@@ -78,13 +78,13 @@ logstash_pipeline_plugins_filters_events_duration_in_millis{id="messages_date_1"
 ![image](assets/tags.png)
 
 
-The drop down menus allow also multiple selection, so for example if you have multiple logstash instances you can select `All` and the panels will adapt accordingly to display graphs from all hosts. Below is an example of System stats from two logstash instances. Average CPU load is distinct (repeated) for each instance while metrics for total vmem usage and open file descriptors are visualized for both instances in `Logstash ps total vmem` and `Logstash ps fds` respectively.
+The drop down menus allow also multiple selection, so for example if you have multiple logstash instances you can select `All` and the panels will adapt accordingly to display graphs from all hosts. Below is an example of System stats from two Logstash instances. Average CPU load is distinct (repeated) for each instance while metrics for total vmem usage and open file descriptors are visualized for both instances in `Logstash ps total vmem` and `Logstash ps fds` respectively.
 
 
 ![image](assets/system.png)
 
 
-The same logic applies also for plugins where you can select specific plugin id(s) as well as instance(s) to visualize, for example the average duration of filters. This section is displayed under rows that are repeated based on the selected instance fqdn.
+The same logic applies also for plugins where you can select specific id(s) as well as instance(s) to visualize (eg. the average duration of filters). This section is displayed under rows that are repeated based on the selected instance fqdn.
 
 
 ![image](assets/filters_duration.png)
