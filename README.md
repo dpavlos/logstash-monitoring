@@ -66,6 +66,8 @@ The dashboard relies on repeated panels, rows and templated variables. You can f
 * input_plugin: The unique id of the each plugin which is used as Logstash input.
 * output_plugin: The unique id of the each plugin which used as Logstash output.
 
+When Logstash initializes a plugin it assigns a random hash to it. This is not very explanatory and helpful in cases where you want to monitor the performance characteristics of each plugin. It is recommended to [overwrite the id](https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html#plugins-filters-grok-id) by setting the `id` field in each plugin definition in your logstash configuration.
+
 Plugin selection can also be grouped by using Grafana tags. The grouping functionality is based on the `name` label which is returned by the Prometheus exporter for each plugin. In the example below, the `plugin_id: messages_date_1` will be grouped under `tag: date` in the menu bar.
 
 ```
