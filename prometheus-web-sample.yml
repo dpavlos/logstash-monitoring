@@ -1,0 +1,25 @@
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+  
+  # scrape Prometheus itself.
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'logstash'
+    scrape_interval:     10s
+    static_configs:
+      - targets: ['dockerhost.example.com:9304']
+        labels:
+          instance: 'logstash01.example.com'
+          instance_pqdn: 'logstash01'
+      - targets: ['dockerhost.example.com:9305']
+        labels:
+          instance: 'logstash02.example.com'
+          instance_pqdn: 'logstash02'
+
+

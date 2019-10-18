@@ -27,7 +27,7 @@ Below is the full list of the monitored components:
 
 ### Setup instructions
 
-The dashboard has been tested on Grafana v6.4. Older versions (>2.5) will probably work out of the box or may require minor modifications eg. the `$__range` variable (available since v5.6) is used in some PromQL queries.
+The dashboard has been tested on Grafana **v6.4**. Older versions (>2.5) will probably work out of the box or may require minor modifications eg. the `$__range` variable (available since v5.6) is used in some PromQL queries.
 
 The setup is based on this [Prometheus exporter](https://github.com/alxrem/prometheus-logstash-exporter) for logstash written by [alxrem](https://github.com/alxrem). You can either run it locally on your logstash instance or deploy it on a docker container via [Docker Hub](https://hub.docker.com/r/alxrem/prometheus-logstash-exporter/).
 
@@ -61,14 +61,15 @@ The dashboard relies on repeated panels, rows and templated variables. You can f
 ![image](assets/menu.png)
 
 
-* instance: Logstash fqdn.
-* plugin_id: The unique id of each plugin which used whithin Logstash filters.
-* input_plugin: The unique id of each plugin which is used as Logstash input.
-* output_plugin: The unique id of each plugin which used as Logstash output.
+* **instance:** Logstash fqdn.
+* **plugin_id:** The unique id of each plugin which used whithin Logstash filters.
+* **input_plugin:** The unique id of each plugin which is used as Logstash input.
+* **output_plugin:** The unique id of each plugin which used as Logstash output.
 
 When Logstash initializes a plugin it assigns a random hash to it. This is not very explanatory and helpful in cases where you want to monitor the performance characteristics of each plugin. It is recommended to [overwrite the id](https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html#plugins-filters-grok-id) by setting the `id` field in each plugin definition in your logstash configuration.
 
 Plugin selection can also be grouped by using Grafana tags. In our case the grouping functionality is based on the `name` label which is returned by the Prometheus exporter for each plugin. In the example below, the `plugin_id: messages_date_1` will be grouped under `tag: date` in the menu bar.
+
 
 ```
 logstash_pipeline_plugins_filters_events_duration_in_millis{id="messages_date_1",name="date",pipeline="main"} 354
