@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.4.2"
+      "version": "6.4.3"
     },
     {
       "type": "panel",
@@ -55,7 +55,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1571312435166,
+  "iteration": 1572349323311,
   "links": [],
   "panels": [
     {
@@ -1160,6 +1160,7 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUS}",
+      "description": "Returns the rounded number of GC young events as measured over the time period specified by the user.",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1216,7 +1217,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "increase(logstash_jvm_gc_collectors_young_collection_count{instance=~'$instance'}[$__range])",
+          "expr": "ceil(increase(logstash_jvm_gc_collectors_young_collection_count{instance=~'$instance'}[$__range]))",
           "refId": "A"
         }
       ],
@@ -2131,7 +2132,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -2151,5 +2152,5 @@
   "timezone": "",
   "title": "Logstash monitoring",
   "uid": "zZQH3zhWz",
-  "version": 41
+  "version": 1
 }
