@@ -11,9 +11,9 @@ Below is the full list of the monitored components:
 	* Average time spent for GC (young & old generations)
 	* Threads count
 	* Heap used percentage
-	* Head used in MB
-	* GC old generation events
-	* GC young generation events
+	* Heap used in MB
+	* GC old generation events count
+	* GC young generation events count
 * Pipeline
 	* Events processing times
 	* Processed input/output events per second
